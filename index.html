@@ -1,767 +1,625 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>공백 속의 악마</title><style>
-/* cspell:disable-file */
-/* webkit printing magic: print all background colors */
-html {
-	-webkit-print-color-adjust: exact;
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="공백 속의 악마 — 영화관에서 시작하는 어느 독백">
+<title>공백 속의 악마</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4ede0;
+  --bg-accent: #ebe2d0;
+  --ink: #2b2620;
+  --ink-soft: #6b5d4f;
+  --ink-faint: #a39583;
+  --gold: #b08430;
+  --rule: #c9bea8;
+  --shadow: rgba(43, 38, 32, 0.08);
+  --serif-ko: 'Gowun Batang', 'Nanum Myeongjo', serif;
+  --serif-en: 'Cormorant Garamond', 'Gowun Batang', serif;
 }
+
+[data-theme="dark"] {
+  --bg: #14130f;
+  --bg-accent: #1c1a15;
+  --ink: #e8dfcc;
+  --ink-soft: #968a76;
+  --ink-faint: #4a443a;
+  --gold: #d4a656;
+  --rule: #2a2620;
+  --shadow: rgba(0, 0, 0, 0.4);
+}
+
 * {
-	box-sizing: border-box;
-	-webkit-print-color-adjust: exact;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html,
-body {
-	margin: 0;
-	padding: 0;
-}
-@media only screen {
-	body {
-		margin: 2em auto;
-		max-width: 900px;
-		color: rgb(55, 53, 47);
-	}
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-	line-height: 1.5;
-	white-space: pre-wrap;
+  font-family: var(--serif-ko);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 2.0;
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  min-height: 100vh;
+  transition: background-color 0.6s ease, color 0.6s ease;
+  padding-top: 3px;
 }
 
-a,
-a.visited {
-	color: inherit;
-	text-decoration: underline;
+/* 읽기 진행 바 */
+.progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--gold);
+  z-index: 100;
+  transition: width 0.1s linear;
 }
 
-.pdf-relative-link-path {
-	font-size: 80%;
-	color: #444;
+/* 다크모드 토글 */
+.theme-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  background: var(--bg-accent);
+  border: 1px solid var(--rule);
+  color: var(--ink-soft);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--shadow);
 }
 
-h1,
-h2,
-h3 {
-	letter-spacing: -0.01em;
-	line-height: 1.2;
-	font-weight: 600;
-	margin-bottom: 0;
+.theme-toggle:hover {
+  color: var(--gold);
+  transform: translateY(-1px);
 }
 
-/* Override strong tags inside headings to maintain consistent weight */
-h1 strong,
-h2 strong,
-h3 strong {
-	font-weight: 600;
+.theme-toggle svg {
+  width: 18px; height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
 }
 
-.page-title {
-	font-size: 2.5rem;
-	font-weight: 700;
-	margin-top: 0;
-	margin-bottom: 0.75em;
+.theme-toggle .sun { display: none; }
+.theme-toggle .moon { display: block; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+/* 전체 래퍼 */
+main {
+  max-width: 38em;
+  margin: 0 auto;
+  padding: 7rem 2rem 8rem;
+}
+
+/* 헤더 */
+header {
+  text-align: center;
+  margin-bottom: 6rem;
+  opacity: 0;
+  animation: fadeIn 1.4s ease 0.2s forwards;
+}
+
+.eyebrow {
+  font-family: var(--serif-en);
+  font-size: 0.8rem;
+  font-style: italic;
+  letter-spacing: 0.4em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  display: block;
 }
 
 h1 {
-	font-size: 1.875rem;
-	margin-top: 1.875rem;
+  font-family: 'Nanum Myeongjo', var(--serif-ko);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 2rem;
 }
 
-h2 {
-	font-size: 1.5rem;
-	margin-top: 1.5rem;
+.title-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 0 auto;
+  color: var(--ink-faint);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
 }
 
-h3 {
-	font-size: 1.25rem;
-	margin-top: 1.25rem;
+.title-ornament::before,
+.title-ornament::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--rule);
 }
 
-.source {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	padding: 1.5em;
-	word-break: break-all;
+/* 본문 */
+article {
+  opacity: 0;
+  animation: fadeIn 1.4s ease 0.6s forwards;
 }
 
-.callout {
-	border-radius: 10px;
-	padding: 1rem;
+article p {
+  margin: 0 0 1.5em;
+  text-align: left;
 }
 
-figure {
-	margin: 1.25em 0;
-	page-break-inside: avoid;
+article p:empty {
+  display: none;
 }
 
-figcaption {
-	opacity: 0.5;
-	font-size: 85%;
-	margin-top: 0.5em;
-}
+/* 괄호 안 자기 대화 */
+.aside {
+  color: var(--ink-soft);
+  font-size: 0.92em;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--rule);
+  margin: 1.5em 0;
+  font-style: italic;
+  line-height: 1.8;
+}
+
+/* 악마의 속삭임 */
+.whisper {
+  text-align: center;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 1.2em 0;
+  letter-spacing: 0.03em;
+}
+
+.whisper.first {
+  margin-top: 2.5em;
+}
+
+.whisper.last {
+  margin-bottom: 2.5em;
+}
+
+/* 구분선 (원작의 ---) */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 5rem 0;
+  color: var(--ink-faint);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 0 0 2rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+.divider-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink-faint);
+}
+
+/* 짧은 장면 전환 (---가 아니지만 호흡이 크게 끊기는 곳) */
+.breath {
+  height: 3em;
+}
 
-mark {
-	background-color: transparent;
+/* 강조: 공백 */
+.keyword {
+  font-weight: 700;
+  color: var(--ink);
+  position: relative;
+}
+
+/* 영화가 끝났습니다 */
+.turn {
+  margin: 3rem 0;
+  text-align: center;
+  font-size: 1.1em;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+/* 꽃말 카드 */
+.epitaph {
+  margin: 3rem 0;
+  text-align: center;
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 1.25em;
+  color: var(--gold);
+  letter-spacing: 0.01em;
+  line-height: 2.2;
+}
+
+.epitaph .ko {
+  font-family: var(--serif-ko);
+  font-style: normal;
+  font-weight: 400;
+  display: block;
+}
+
+/* 결말 Übermensch */
+.finale {
+  margin: 5rem 0 2rem;
+  text-align: center;
+  font-family: 'Nanum Myeongjo', var(--serif-ko);
+  font-size: 1.15em;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1.9;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+
+.finale .ubermensch {
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  font-size: 1.15em;
+  letter-spacing: 0.01em;
 }
 
-.indented {
-	padding-left: 1.5em;
+/* 푸터 장식 */
+footer {
+  text-align: center;
+  margin-top: 5rem;
+  color: var(--ink-faint);
+  font-family: var(--serif-en);
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.35em;
 }
 
-hr {
-	background: transparent;
-	display: block;
-	width: 100%;
-	height: 1px;
-	visibility: visible;
-	border: none;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+footer::before {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--rule);
+  margin: 0 auto 1.5rem;
 }
 
-img {
-	max-width: 100%;
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@media only print {
-	img {
-		max-height: 100vh;
-		object-fit: contain;
-	}
-
-	table.collection-content {
-		width: 100%;
-		table-layout: fixed;
-	}
-
-	table.collection-content th,
-	table.collection-content td {
-		overflow-wrap: anywhere;
-	}
-
-	table.collection-content td > .user,
-	table.collection-content td > time {
-		white-space: pre-wrap;
-	}
+/* 모바일 */
+@media (max-width: 640px) {
+  body { font-size: 16px; line-height: 1.9; }
+  main { padding: 5rem 1.4rem 5rem; }
+  header { margin-bottom: 4rem; }
+  .theme-toggle { top: 1rem; right: 1rem; width: 40px; height: 40px; }
+  .divider { margin: 3.5rem 0; }
+  .finale { padding: 2rem 0.5rem; margin: 4rem 0 2rem; }
+  .aside { padding-left: 1rem; }
 }
 
-@page {
-	margin: 1in;
+/* 프린트 */
+@media print {
+  .theme-toggle, .progress { display: none; }
+  body { background: white; color: black; font-size: 11pt; line-height: 1.7; }
+  main { max-width: none; padding: 0; }
+  article, header { opacity: 1; animation: none; }
+  .finale { border-color: #999; }
 }
 
-.collection-content-wrapper {
-	overflow-x: auto;
+/* 접근성: 애니메이션 최소화 선호 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-@media only print {
-	.collection-content-wrapper {
-		overflow-x: visible;
-	}
+/* 선택 */
+::selection {
+  background: var(--gold);
+  color: var(--bg);
 }
+</style>
+</head>
+<body>
 
-.collection-content {
-	font-size: 0.875rem;
-}
+<div class="progress" id="progress"></div>
 
-.collection-content td {
-	white-space: pre-wrap;
-	word-break: break-word;
-}
+<button class="theme-toggle" id="themeToggle" aria-label="테마 전환">
+  <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+</button>
 
-.column-list {
-	display: flex;
-	gap: 46px;
-}
+<main>
 
-.column {
-	min-width: 0;
-	overflow: hidden;
-}
+<header>
+  <span class="eyebrow">A Monologue</span>
+  <h1>공백 속의 악마</h1>
+  <div class="title-ornament"><span>✦</span></div>
+</header>
 
-.column > *:first-child {
-	margin-top: 0;
-}
+<article>
 
-.table_of_contents-item {
-	display: block;
-	font-size: 0.875rem;
-	line-height: 1.3;
-	padding: 0.125rem;
-}
+<p>저는 영화를 보고 있었습니다.</p>
 
-.table_of_contents-indent-1 {
-	margin-left: 1.5rem;
-}
+<p>지루하고 통속적이었습니다.</p>
 
-.table_of_contents-indent-2 {
-	margin-left: 3rem;
-}
+<p>새로움이라고는 전혀 볼 수 없었습니다.</p>
 
-.table_of_contents-indent-3 {
-	margin-left: 4.5rem;
-}
+<p>사실적인 스토리에 취한 나머지 재치라고는 내다버린, 그런 영화였습니다.</p>
 
-.table_of_contents-link {
-	text-decoration: none;
-	opacity: 0.7;
-	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
-}
+<p>이렇게 된 김에 저도 그 시선에 맞추기로 했습니다.</p>
 
-table,
-th,
-td {
-	border: 1px solid rgba(55, 53, 47, 0.09);
-}
+<p>영화란 즐기기 위해 보는 것이니까요.<br>최면 같은 겁니다. 맞춰주지 않으면 즐길 수 없지요.</p>
 
-table {
-	border-collapse: collapse;
-	border-left: none;
-	border-right: none;
-}
+<p>그래서 전 이 사람들을 실재하는 사람들이라고 생각하기로 했습니다.</p>
 
-th,
-td {
-	font-weight: normal;
-	padding: 0.25em 0.5em;
-	line-height: 1.5;
-	min-height: 1.5em;
-	text-align: left;
-}
+<p>아니 잠깐만요.<br>그렇게 가정하고 나니, 심히 신경 쓰이는 것이 있습니다.</p>
 
-th {
-	color: rgba(55, 53, 47, 0.6);
-}
+<p>대체 이들의 이야기를 지켜보고 있는 인물은 누구입니까?<br>관음증이라도 있는 걸까요.<br>비디오 촬영에 마이크에 화면 보정에 대사까지 집어넣다니, 정말 악질적입니다.<br>영화관이란 관음증에 걸려버린 사람들의 파티장인겁니까?</p>
 
-ol,
-ul {
-	margin: 0;
-	margin-block-start: 0.6em;
-	margin-block-end: 0.6em;
-}
+<p>아.. 그렇다면 그걸 보고 있는 저야말로 관음증일지도 모르겠네요.<br>적어도 공범입니다.</p>
 
-li > ol:first-child,
-li > ul:first-child {
-	margin-block-start: 0.6em;
-}
+<p>이왕 공범이 된 김에 즐기기로 했습니다.</p>
 
-ul > li {
-	list-style: disc;
-}
+<div class="breath"></div>
 
-ul.to-do-list {
-	padding-inline-start: 0;
-}
+<p>앗.</p>
 
-ul.to-do-list > li {
-	list-style: none;
-}
+<p>테이크가 넘어갔습니다. 장면이 넘어갔습니다. 카메라가 넘어갔습니다.</p>
 
-.to-do-children-checked {
-	text-decoration: line-through;
-	opacity: 0.375;
-}
+<p>그 광경을 보며 문득 궁금해졌습니다.</p>
 
-ul.toggle > li {
-	list-style: none;
-}
+<p>테이크가 넘어갈 때, 장면이 넘어갈 때, 카메라가 넘어갈 때—</p>
 
-ul {
-	padding-inline-start: 1.7em;
-}
+<p>그 사이의 <span class="keyword">공백</span>에서는 대체 무슨 일이 일어나는 걸까요.</p>
 
-ul > li {
-	padding-left: 0.1em;
-}
+<p>어쩌면 엄청난 일이 있지 않았을까요.</p>
 
-ol {
-	padding-inline-start: 1.6em;
-}
+<p>이를테면 원래의 주인공에서 얼굴, 성격, 체격, 목소리마저 닮은 외부인으로 바뀌었을지도 모릅니다.</p>
 
-ol.numbered-list.numbered-list-digits-2 {
-	padding-inline-start: 2em;
-}
+<p class="aside">소름끼칩니다. 저를 속이기 위해 그 정도로 내 친구를 따라하다니. 아니, 그렇게 다 똑같다면 원래 친구와 다름 없는 건가요.</p>
 
-ol.numbered-list.numbered-list-digits-3plus {
-	padding-inline-start: 2.4em;
-}
+<p>어쩌면 주인공이 그 사이에 정신을 잃고, 주인공의 상상에서 이야기가 펼쳐지고 있는 것일지도.</p>
 
-ol > li {
-	padding-left: 0.2em;
-}
+<p class="aside">안타깝습니다. 정신을 되찾는 순간 오히려 모든 걸 잃어버리게 되는 것 아닙니까. 어쩌면 평생 정신을 잃는 편이 나을지도요.</p>
 
-.mono ol {
-	padding-inline-start: 2em;
-}
+<p>아니 그보다도— 그 모든 전제가, 그러니까 주인공의 존재와 그 주변인의 존재가 실재하긴 한 걸까요.</p>
 
-.mono ol > li {
-	text-indent: -0.4em;
-}
+<p>장면과 장면 사이 공백은 결국 독자가 자기 멋대로 채워버립니다. 채워버려야만 합니다.</p>
 
-.toggle {
-	padding-inline-start: 0em;
-	list-style-type: none;
-}
+<p>그렇게 채워진 공백이 사실인지도 모른 체로 말이에요.</p>
 
-/* Indent toggle children */
-.toggle > li > details {
-	padding-left: 1.7em;
-}
+<p>그렇기에 그 공백은 그 무슨 일이든 나타날 수 있게 되어버립니다.</p>
 
-.toggle > li > details > summary {
-	margin-left: -1.1em;
-}
+<p>아아..</p>
 
-.selected-value {
-	display: inline-block;
-	padding: 0 0.5em;
-	background: rgba(206, 205, 202, 0.5);
-	border-radius: 3px;
-	margin-right: 0.5em;
-	margin-top: 0.3em;
-	margin-bottom: 0.3em;
-	white-space: nowrap;
-}
+<p>이 공백에서의 이야기가 너무나 궁금합니다. 참을 수 없을 정도입니다.</p>
 
-.collection-title {
-	display: inline-block;
-	margin-right: 1em;
-}
+<p>어째서 영화에선 그런 걸 비워버리는 건지, 저는 불만으로 가득 찼습니다.</p>
 
-.page-description {
-	margin-bottom: 2em;
-}
+<div class="divider">
+  <span class="divider-dot"></span>
+  <span class="divider-dot"></span>
+  <span class="divider-dot"></span>
+</div>
 
-.simple-table {
-	margin-top: 1em;
-	font-size: 0.875rem;
-	empty-cells: show;
-}
-.simple-table td {
-	height: 29px;
-	min-width: 120px;
-}
+<p>그러던 중 갑자기 또 다른 생각이 들었습니다.</p>
 
-.simple-table th {
-	height: 29px;
-	min-width: 120px;
-}
+<p>우리의 인생도 그런 공백으로 가득 차 있지 않은가 하고 말이에요.</p>
 
-.simple-table-header-color {
-	background: rgb(247, 246, 243);
-	color: black;
-}
-.simple-table-header {
-	font-weight: 500;
-}
+<p>당신이 지금 무언가를 보고 있는 것도, 마치 1과 2 사이에 무한한 숫자가 있는 것처럼, 무수한 사진이 점선으로 이어진 무언가일지도 모릅니다.<br>선처럼 보이더라도 결국엔 떨어져 있는 점선입니다.</p>
 
-time {
-	opacity: 0.5;
-}
+<p>그렇다면 선과 선 사이의 공백에선 어떤 일이 일어나는 걸까요.</p>
 
-.icon {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	max-width: 1.2em;
-	max-height: 1.2em;
-	text-decoration: none;
-	vertical-align: text-bottom;
-	margin-right: 0.5em;
-}
+<p>어쩌면 누군가 그 찰나에 무슨 짓을 했을지도 모릅니다.<br>사람이나, 아니 미생물이라거나, 아뇨 그보다 더 전능한—</p>
 
-img.icon {
-	border-radius: 3px;
-}
+<p>그래요.</p>
 
-.callout img.notion-static-icon {
-	width: 1em;
-	height: 1em;
-}
+<p>악마가 나타나는 것입니다.<br>저의 모든 것을 속이기로 마음먹은 악마가,</p>
 
-.callout p {
-	margin: 0;
-}
+<p class="whisper first">“너는 이런 것을 알고 있었어”</p>
+<p class="whisper last">“너는 이런 걸 보고 있었어”</p>
 
-.callout h1,
-.callout h2,
-.callout h3 {
-	margin: 0 0 0.6rem;
-}
+<p>당신의 과거마저, 당신이 인식하는 현재마저, 악마가 속삭이고 있습니다.</p>
 
-.user-icon {
-	width: 1.5em;
-	height: 1.5em;
-	border-radius: 100%;
-	margin-right: 0.5rem;
-}
+<p>저는 그저 받아들이는 것 밖에 할 수 없습니다.</p>
 
-.user-icon-inner {
-	font-size: 0.8em;
-}
+<p>저는 그저 몸이라는 통 속에 갇혀있는 뇌에 불과합니다.</p>
 
-.text-icon {
-	border: 1px solid #000;
-	text-align: center;
-}
+<p>제가 지금 무언가를 보고 있는 것도 그 실체 자체를 곧이곧대로 보고 있는 것이 아닙니다.</p>
 
-.page-cover-image {
-	display: block;
-	object-fit: cover;
-	width: 100%;
-	max-height: 30vh;
-}
+<p>진실을 보고 있지 않습니다.<br>오히려 항상 저는 거짓을 보고 있습니다.</p>
 
-.page-header-icon {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
+<div class="breath"></div>
 
-.page-header-icon-with-cover {
-	margin-top: -0.72em;
-	margin-left: 0.07em;
-}
+<p>빛이 물체로</p>
+<p>물체에서 당신으로 오면서</p>
+<p>당신의 눈이 빛을 받아</p>
+<p>그렇게 받은 많은 빛의 정보를</p>
+<p>당신의 뇌가 마치 그림을 그리듯 그릴 뿐입니다.</p>
 
-.page-header-icon img {
-	border-radius: 3px;
-}
+<div class="breath"></div>
 
-.link-to-page {
-	margin: 1em 0;
-	padding: 0;
-	border: none;
-	font-weight: 500;
-}
+<p>정보일 뿐입니다.</p>
+<p>이미지일 뿐입니다.</p>
+<p>거짓일 뿐입니다.</p>
 
-p > .user {
-	opacity: 0.5;
-}
+<p>진실에 가까운 거짓.</p>
+<p>거짓에 가까운 거짓.</p>
+<p>참과 무관한 무언가 —</p>
 
-td > .user,
-td > time {
-	white-space: nowrap;
-}
+<div class="breath"></div>
 
-input[type="checkbox"] {
-	transform: scale(1.5);
-	margin-right: 0.6em;
-	vertical-align: middle;
-}
+<p>아뇨 잠시만요.</p>
 
-p {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-}
+<p>저희가 참을 보고 있지 않다면요.</p>
 
-.image {
-	border: none;
-	margin: 1.5em 0;
-	padding: 0;
-	border-radius: 0;
-	text-align: center;
-}
+<p>참 같아 보이는 거짓을 보고 그리고<br>또 그 거짓을 보고 그리고<br>그리고.. 또 그리고 —</p>
 
-.code,
-code {
-	background: rgba(135, 131, 120, 0.15);
-	border-radius: 3px;
-	padding: 0.2em 0.4em;
-	border-radius: 3px;
-	font-size: 85%;
-	tab-size: 2;
-}
+<p>더 이상 참과 전혀 같지 않은 다른 무언가를 보고 있는 것일지도 모릅니다.</p>
 
-code {
-	color: #eb5757;
-}
+<p>디지털 풍화인 것입니다.</p>
 
-.code {
-	padding: 1.5em 1em;
-}
+<p>애초에 참이란 뭐죠.</p>
 
-.code-wrap {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
+<div class="breath"></div>
 
-.code > code {
-	background: none;
-	padding: 0;
-	font-size: 100%;
-	color: inherit;
-}
+<p>공백 속의 악마가 저의 존재를 뒤흔들고 있습니다.</p>
 
-blockquote {
-	font-size: 1em;
-	margin: 1em 0;
-	padding-left: 1em;
-	border-left: 3px solid rgb(55, 53, 47);
-}
+<p>저의 존재를 이루는 것은 무엇입니까.</p>
 
-blockquote.quote-large {
-	font-size: 1.25em;
-}
+<p>저는 매 순간 태어나고 죽습니다.<br>저라는 존재는 테세우스의 배입니다.<br>저는 지금 접니다 그러면서 제가 아닙니다.<br>저라는 존재는 슈뢰딩거의 고양이입니다.</p>
 
-.bookmark {
-	text-decoration: none;
-	max-height: 8em;
-	padding: 0;
-	display: flex;
-	width: 100%;
-	align-items: stretch;
-}
+<p>저는 대체 무엇을 보고 있단 말입니까.</p>
 
-.bookmark-title {
-	font-size: 0.85em;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	height: 1.75em;
-	white-space: nowrap;
-}
+<p>이 세상에 대체 참이라 부를 수 있는 게 있긴 한단 말입니까.</p>
 
-.bookmark-text {
-	display: flex;
-	flex-direction: column;
-}
+<p>모든 것은 그저 귀납적인 추론일 뿐입니다.<br>참이 아닙니다.</p>
 
-.bookmark-info {
-	flex: 4 1 180px;
-	padding: 12px 14px 14px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
+<p>어느 순간 갑작스레 모든 게 무너진다 하더래도<br>세상이 무너진다 하더래도<br>저는 그 누구에게도 불평할 수 없습니다.</p>
 
-.bookmark-image {
-	width: 33%;
-	flex: 1 1 180px;
-	display: block;
-	position: relative;
-	object-fit: cover;
-	border-radius: 1px;
-}
+<p>저의 삶은 그 모든 것이 불안정했던 겁니다.</p>
 
-.bookmark-description {
-	color: rgba(55, 53, 47, 0.6);
-	font-size: 0.75em;
-	overflow: hidden;
-	max-height: 4.5em;
-	word-break: break-word;
-}
+<div class="breath"></div>
 
-.bookmark-href {
-	font-size: 0.75em;
-	margin-top: 0.25em;
-}
+<p>머리가 어지럽습니다. 혼란스럽습니다. 울렁거립니다.</p>
 
-.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
-.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
-.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
-.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
-.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
-.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
-.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
-.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", "Noto Sans Arabic", "Noto Sans Hebrew", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
-.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
-.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
-.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
-.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
-.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
-.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
-.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
-.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
-.highlight-default {
-	color: rgba(44, 44, 43, 1);
-}
-.highlight-gray {
-	color: rgba(125, 122, 117, 1);
-	fill: rgba(125, 122, 117, 1);
-}
-.highlight-brown {
-	color: rgba(159, 118, 90, 1);
-	fill: rgba(159, 118, 90, 1);
-}
-.highlight-orange {
-	color: rgba(210, 123, 45, 1);
-	fill: rgba(210, 123, 45, 1);
-}
-.highlight-yellow {
-	color: rgba(203, 148, 52, 1);
-	fill: rgba(203, 148, 52, 1);
-}
-.highlight-teal {
-	color: rgba(80, 148, 110, 1);
-	fill: rgba(80, 148, 110, 1);
-}
-.highlight-blue {
-	color: rgba(56, 125, 201, 1);
-	fill: rgba(56, 125, 201, 1);
-}
-.highlight-purple {
-	color: rgba(154, 107, 180, 1);
-	fill: rgba(154, 107, 180, 1);
-}
-.highlight-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.highlight-red {
-	color: rgba(207, 81, 72, 1);
-	fill: rgba(207, 81, 72, 1);
-}
-.highlight-default_background {
-	color: rgba(44, 44, 43, 1);
-}
-.highlight-gray_background {
-	background: rgba(42, 28, 0, 0.07);
-}
-.highlight-brown_background {
-	background: rgba(139, 46, 0, 0.086);
-}
-.highlight-orange_background {
-	background: rgba(224, 101, 1, 0.129);
-}
-.highlight-yellow_background {
-	background: rgba(211, 168, 0, 0.137);
-}
-.highlight-teal_background {
-	background: rgba(0, 100, 45, 0.09);
-}
-.highlight-blue_background {
-	background: rgba(0, 124, 215, 0.094);
-}
-.highlight-purple_background {
-	background: rgba(102, 0, 178, 0.078);
-}
-.highlight-pink_background {
-	background: rgba(197, 0, 93, 0.086);
-}
-.highlight-red_background {
-	background: rgba(223, 22, 0, 0.094);
-}
-.block-color-default {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray {
-	color: rgba(125, 122, 117, 1);
-	fill: rgba(125, 122, 117, 1);
-}
-.block-color-brown {
-	color: rgba(159, 118, 90, 1);
-	fill: rgba(159, 118, 90, 1);
-}
-.block-color-orange {
-	color: rgba(210, 123, 45, 1);
-	fill: rgba(210, 123, 45, 1);
-}
-.block-color-yellow {
-	color: rgba(203, 148, 52, 1);
-	fill: rgba(203, 148, 52, 1);
-}
-.block-color-teal {
-	color: rgba(80, 148, 110, 1);
-	fill: rgba(80, 148, 110, 1);
-}
-.block-color-blue {
-	color: rgba(56, 125, 201, 1);
-	fill: rgba(56, 125, 201, 1);
-}
-.block-color-purple {
-	color: rgba(154, 107, 180, 1);
-	fill: rgba(154, 107, 180, 1);
-}
-.block-color-pink {
-	color: rgba(193, 76, 138, 1);
-	fill: rgba(193, 76, 138, 1);
-}
-.block-color-red {
-	color: rgba(207, 81, 72, 1);
-	fill: rgba(207, 81, 72, 1);
-}
-.block-color-default_background {
-	color: inherit;
-	fill: inherit;
-}
-.block-color-gray_background {
-	background: rgba(240, 239, 237, 1);
-}
-.block-color-brown_background {
-	background: rgba(245, 237, 233, 1);
-}
-.block-color-orange_background {
-	background: rgba(251, 235, 222, 1);
-}
-.block-color-yellow_background {
-	background: rgba(249, 243, 220, 1);
-}
-.block-color-teal_background {
-	background: rgba(232, 241, 236, 1);
-}
-.block-color-blue_background {
-	background: rgba(229, 242, 252, 1);
-}
-.block-color-purple_background {
-	background: rgba(243, 235, 249, 1);
-}
-.block-color-pink_background {
-	background: rgba(250, 233, 241, 1);
-}
-.block-color-red_background {
-	background: rgba(252, 233, 231, 1);
-}
-.select-value-color-default { background-color: rgba(42, 28, 0, 0.07); }
-.select-value-color-gray { background-color: rgba(28, 19, 1, 0.11); }
-.select-value-color-brown { background-color: rgba(127, 51, 0, 0.156); }
-.select-value-color-orange { background-color: rgba(196, 88, 0, 0.203); }
-.select-value-color-yellow { background-color: rgba(209, 156, 0, 0.282); }
-.select-value-color-green { background-color: rgba(0, 96, 38, 0.156); }
-.select-value-color-blue { background-color: rgba(0, 118, 217, 0.203); }
-.select-value-color-purple { background-color: rgba(92, 0, 163, 0.141); }
-.select-value-color-pink { background-color: rgba(183, 0, 78, 0.152); }
-.select-value-color-red { background-color: rgba(206, 24, 0, 0.164); }
-
-.checkbox {
-	display: inline-flex;
-	vertical-align: text-bottom;
-	width: 16;
-	height: 16;
-	background-size: 16px;
-	margin-left: 2px;
-	margin-right: 5px;
-}
+<p>악마 탓입니다.<br>악마가 저를 홀렸습니다.<br>저를 이런 사고의 늪으로 빠트려 버렸습니다.</p>
+
+<p>저는 제가 살아온 일생 마저 확신할 수 없게 되었습니다.<br>제가 일생을 살아왔었는지 마저 확신할 수 없게 되어버렸습니다.</p>
+
+<p>나의 과거를.<br>나의 현재를.<br>나의 미래를.<br>나의 가족, 친구, 나무와 풀, 지구와 우주 그리고 그걸 넘어선 그 무언가조차도.</p>
+
+<p>믿을 수 없게 되어버렸습니다.<br>아무것도 믿을 수 없게 되어버렸습니다.</p>
+
+<p>믿음 그 자체의 소실은 마치 절벽 끝에 아슬아슬 서있는 기분입니다.</p>
+
+<p>떨어질 것 같습니다.<br>정신이 나가버릴 것 같습니다.</p>
+
+<p>그 순간—</p>
+
+<p class="turn">영화가 끝났습니다.</p>
+
+<p>저는 혼란 속에서도 서둘러 밖으로 나갔습니다.<br>아니 나가지 않았더라면 그런 생각에 사로잡혀 헤어나오지 못했을 겁니다.<br>발버둥쳐서라도, 잠시만이라도, 그 생각을 잊고 싶었던 것입니다.</p>
+
+<div class="breath"></div>
+
+<p>아..</p>
+
+<p>저는 발견했습니다.</p>
+
+<p>삭막한 아스팔트.<br>그곳에서 민들레가 피어나 있었습니다.</p>
+
+<p>두 송이였습니다.</p>
+
+<p>절벽에 핀 꽃입니다.<br>절벽 위에 있었기에 찾을 수 있었던 겁니다.</p>
+
+<p>둘 다 민들레입니다만— 분명 같지 않습니다. 명백히 다릅니다.</p>
 
-.checkbox-on {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+<p>저는 그 민들레 두 송이의 꽃말을 제멋대로 지었습니다.</p>
+
+<div class="epitaph">
+  <span class="ko">저는 존재합니다.</span>
+  <span class="ko">저는 생각합니다.</span>
+</div>
+
+<p>이 민들레들이 악마에게서 절 지켜주었습니다.</p>
+
+<p>그 후로 다시 민들레를 마주했습니다.<br>마주하고 마주하고 또 마주했습니다.<br>보호받고 보호받고 또 보호받았습니다.</p>
+
+<div class="breath"></div>
+
+<p>민들레는 아무 말도 하지 않았습니다.<br>그냥 피어있었습니다.</p>
+
+<p>아스팔트가 싫었을 겁니다.<br>악마가 싫었을 겁니다.<br>공백이 싫었을 겁니다.</p>
+
+<p>그래도 피어있었습니다.<br>그저 피어있었습니다.</p>
+
+<div class="breath"></div>
+
+<p>오랜 세월 동안 민들레 두 송이를 지켜보기만 했습니다.</p>
+
+<p>하지만—</p>
+
+<p>이제 전 하나의 민들레가 되기로 마음 먹었습니다.<br>그저 존재하기로 마음 먹었습니다.</p>
+
+<div class="finale">
+  저라는 민들레의 꽃말은<br>
+  <span class="ubermensch">Übermensch</span>입니다.
+</div>
+
+</article>
+
+<footer>FIN</footer>
+
+</main>
+
+<script>
+// 읽기 진행률
+const progress = document.getElementById('progress');
+function updateProgress() {
+  const scrolled = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = max > 0 ? (scrolled / max) * 100 : 0;
+  progress.style.width = pct + '%';
 }
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
 
-.checkbox-off {
-	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+// 다크모드 토글 — 세션 중에만 메모리에 유지 (storage API 미사용)
+const toggle = document.getElementById('themeToggle');
+let currentTheme = 'light';
+
+// 시스템 선호 초기 반영
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  currentTheme = 'dark';
+  document.documentElement.setAttribute('data-theme', 'dark');
 }
-	
-</style></head><body><article id="3441262e-2b91-8060-b931-d5c0bc9a5428" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">◻️</span></div><h1 class="page-title" dir="auto">공백 속의 악마</h1><p class="page-description" dir="auto"></p><table class="properties"><tbody><tr class="property-row property-row-select"><th><span class="icon property-icon"><img src="https://www.notion.so/icons/document_gray.svg" style="width:14px;height:14px;display:block"/></span>분류</th><td><span class="selected-value select-value-color-default">나중에 보기</span></td></tr><tr class="property-row property-row-relation"><th><span class="icon property-icon"><img src="https://www.notion.so/icons/layers_gray.svg" style="width:14px;height:14px;display:block"/></span>영역 · 자원</th><td><a href="https://www.notion.so/3421262e2b9180cdac17e0d5c55136e1?pvs=21"><img class="icon notion-static-icon" src="https://www.notion.so/icons/layers_gray.svg"/>소설</a></td></tr><tr class="property-row property-row-checkbox"><th><span class="icon property-icon"><img src="https://www.notion.so/icons/push-pin_gray.svg" style="width:14px;height:14px;display:block"/></span>고정하기</th><td><div class="checkbox checkbox-off"></div></td></tr></tbody></table></header><div class="page-body"><div style="display:contents" dir="auto"><p id="3441262e-2b91-8089-a4a1-fd403b9faedb" class="">저는 영화를 보고 있었습니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8016-962f-fb5b59c8e564" class="">지루하고 통속적이었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8022-ba12-d7c83114b155" class="">새로움이라고는 전혀 볼 수 없었습니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-809d-bd90-c75a3dbb63cd" class="">사실적인 스토리에 취한 나머지 재치라고는 내다버린, 그런 영화였습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8040-a867-c15819a1ebeb" class="">이렇게 된 김에 저도 그 시선에 맞추기로 했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802b-8bd4-de4fdba62cb1" class="">영화란 즐기기 위해 보는 것이니까요.<br/>최면 같은 겁니다. 맞춰주지 않으면 즐길 수 없지요</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8036-a256-e54d51c91c59" class="">그래서 전 이 사람들을 실재하는 사람들이라고 생각하기로 했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-805e-8bea-df92a291415a" class="">아니 잠깐만요. <br/>그렇게 가정하고 나니, 심히 신경 쓰이는 것이 있습니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8043-be45-ee11d718e435" class="">대체 이들의 이야기를 지켜보고 있는 인물은 누구입니까?<br/>관음증이라도 있는 걸까요.<br/>비디오 촬영에 마이크에 화면 보정에 대사까지 집어넣다니, 정말 악질적입니다.<br/>영화관이란 관음증에 걸려버린 사람들의 파티장인겁니까?</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80b6-b741-e084e09df0de" class="">아.. 그렇다면 그걸 보고 있는 저야말로 관음증일지도 모르겠네요 .<br/>적어도 공범입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-809a-bd8b-d0d100b82140" class="">이왕 공범이 된 김에 즐기기로 했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-807e-8044-f3bb2f4a8cab" class="">앗.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e1-9ba3-c240bbf3a5f7" class="">테이크가 넘어갔습니다. 장면이 넘어갔습니다, 카메라가 넘어갔습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e9-a038-c2571717afdc" class="">그 광경을 보며 문득 궁금해졌습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8038-882b-feed5adfd190" class="">테이크가 넘어갈 때, 장면이 넘어갈 때, 카메라가 넘어갈 때—</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803b-ae00-c1d635037e5a" class="">그 사이의 <strong>공백</strong>에서는 대체 무슨 일이 일어나는 걸까요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e4-bdd3-ead1255284fc" class="">어쩌면 엄청난 일이 있지 않았을까요.<br/></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a0-817c-edf89e39c431" class="">이를테면 원래의 주인공에서 얼굴, 성격, 체격, 목소리마저 닮은 외부인으로 바뀌었을지도 모릅니다.<div class="indented"><div style="display:contents" dir="auto"><p id="3441262e-2b91-803e-beb8-c76ae9070907" class="">(소름끼칩니다. 저를 속이기 위해 그 정도로 내 친구를 따라하다니. 아니, 그렇게 다 똑같다면 원래 친구와 다름 없는 건가요.)</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8022-95b9-d04003e03df7" class="">어쩌면 주인공이 그 사이에 정신을 잃고, 주인공의 상상에서 이야기가 펼쳐지고 있는 것일지도.<div class="indented"><div style="display:contents" dir="auto"><p id="3441262e-2b91-80f5-b338-fc5d1d62c486" class="">(안타깝습니다. 정신을 되찾는 순간 오히려 모든 걸 잃어버리게 되는 것 아닙니까. 어쩌면 평생 정신을 잃는 편이 나을지도요.)</p></div></div></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80af-bbf3-ca46aa558fd3" class="">아니 그보다도— 그 모든 전제가, 그러니까 주인공의 존재와 그 주변인의 존재가 실재하긴 한 걸까요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-805b-bcd4-c46f54ce15a1" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e9-bcd7-c576d5d64a76" class="">장면과 장면 사이 공백은 결국 독자가 자기 멋대로 채워버립니다. 채워버려야만 합니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8070-9142-cbcca3583079" class="">그렇게 채워진 공백이 사실인지도 모른 체로 말이에요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a4-b169-e021039b4836" class="">그렇기에 그 공백은 그 무슨 일이든 나타날 수 있게 되어버립니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803e-8a23-dae792285f25" class="">아아..</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8069-b85d-f5f574f18a70" class="">이 공백에서의 이야기가 너무나 궁금합니다 참을 수 없을 정도입니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8038-81b8-ef304f2d421f" class="">어째서 영화에선 그런 걸 비워버리는 건지,<br/>저는 불만으로 가득 찼습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80cd-bb0c-c27e3970fc10" class="">
-</p></div><div style="display:contents" dir="auto"><hr id="3441262e-2b91-8098-9e29-dcd8ae5e08f6"/></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80cb-a7de-d35392508e29" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8004-a7ee-e0cf0d13623d" class="">그러던 중 갑자기 또 다른 생각이 들었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-806f-b166-d83782be1db4" class="">우리의 인생도 그런 공백으로 가득 차 있지 않은가 하고 말이에요.<br/></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8025-ba53-ddf86471cdb0" class="">당신이 지금 무언가를 보고 있는 것도, 마치 1과 2 사이에 무한한 숫자가 있는 것처럼,</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8070-aec5-f40068990580" class="">무수한 사진이 점선으로 이어진 무언가 일지도 모릅니다. <br/>선처럼 보이더라도 결국엔 떨어져 있는 점선입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-809a-b021-fecf989fc366" class="">그렇다면 선과 선 사이의 공백에선 어떤 일이 일어나는 걸까요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8068-a466-fd9543a037de" class="">어쩌면 누군가 그 찰나에 무슨 짓을 했을지도 모릅니다.<br/>사람이나, 아니 미생물이라거나, 아뇨 그보다 더 전능한—</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8015-b72f-e0b5b2c798fc" class="">그래요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8049-93f7-ee226bcda77c" class="">악마가 나타나는 것입니다.<br/>저의 모든 것을 속이기로 마음먹은 악마가,</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-807d-acb6-db11b18ef9af" class=""><em>“너는 이런 것을 알고 있었어”</em></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-804c-8947-d3713cf078d4" class=""><em>“너는 이런 걸 보고 있었어”</em></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80f2-8d09-c65255d294a3" class="">당신의 과거마저, 당신이 인식하는 현재마저, 악마가 속삭이고 있습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80d1-b4e5-ee943eae72e1" class="">저는 그저 받아들이는 것 밖에 할 수 없습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8082-affb-fb7fd0626cff" class="">저는 그저 몸이라는 통 속에 갇혀있는 뇌에 불과합니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802d-b52b-c98794f7c882" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8060-afa4-c991d32cdaa9" class="">제가 지금 무언가를 보고 있는 것도 <br/>그 실체 자체를 곧이곧대로 보고 있는 것이 아닙니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802c-b49d-e582971af49e" class="">진실을 보고 있지 않습니다.<br/>오히려 항상 저는 거짓을 보고 있습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800a-a107-f69091b256fd" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e5-92cf-db0795bd1ae2" class="">빛이 물체로</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80c1-bd22-e5a9c4f36052" class="">물체에서 당신으로 오면서</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8066-a7c7-f09caf4bf15a" class="">당신의 눈이 빛을 받아</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-801d-a5ac-ec18c3fa51b3" class="">그렇게 받은 많은 빛의 정보를</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-809e-8878-e5ab6d6e7b3a" class="">당신의 뇌가 마치 그림을 그리듯 그릴 뿐입니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800f-972d-d2e5d2a294e5" class=""><br/>정보일 뿐입니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80b6-ab75-cc414c936e2e" class="">이미지일 뿐입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80bb-a6b2-e3d4f390fad6" class="">거짓일 뿐입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8089-baf1-ccd3a52f1710" class="">진실에 가까운 거짓.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-806d-a28c-c7d5b542b148" class="">거짓에 가까운 거짓.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800f-98b3-cc93e5c6d039" class="">참과 무관한 무언가 —</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-807e-9dba-c3ab0e25242d" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8081-890b-eaf4910a8814" class="">아뇨 잠시만요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80d6-9dfe-e9e51e6c522a" class="">저희가 참을 보고 있지 않다면요.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8096-b34b-e5f99ccff8fc" class="">참 같아 보이는 거짓을 보고 그리고</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a3-b083-f0db726feef5" class="">또 그 거짓을 보고 그리고</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802d-8505-ec27fefedabf" class="">그리고.. 또 그리고 —</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8061-b8f1-fc496c62040d" class="">더 이상 참과 전혀 같지 않은 다른 무언가를 보고 있는 것일지도 모릅니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8014-8e0c-e5528748facf" class="">디지털 풍화인 것입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802b-8318-c9b96c79ff4d" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80fa-bca2-f8b32d9805af" class="">애초에 참이란 뭐죠.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802c-8a37-dda8ab2ad8b0" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8065-92a9-f0563e023984" class="">공백 속의 악마가 저의 존재를 뒤흔들고 있습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803a-abba-da01472b2069" class="">저의 존재를 이루는 것은 무엇입니까.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8032-a748-fd1b8b7ea8a8" class="">저는 매 순간 태어나고 죽습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8092-8af1-ea0ed691d079" class="">저라는 존재는 테세우스의 배입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80ca-8c7a-d68578dd398f" class="">저는 지금 접니다 그러면서 제가 아닙니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80b1-8b21-cb3ea76df045" class="">저라는 존재는 슈뢰딩거의 고양이입니다. </p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8021-9f10-e5a6502152d8" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a6-b234-ff9014c90c35" class="">저는 대체 무엇을 보고 있단 말입니까</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e4-b514-d1de2e9a8db3" class="">이 세상에 대체 참이라 부를 수 있는 게 있긴 한단 말입니까</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8013-a3f0-d9abed1c6d11" class="">모든 것은 그저 귀납적인 추론일 뿐입니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800e-bbe4-d5e5408a257a" class="">참이 아닙니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8046-a7d4-e55a452b8e7f" class="">어느 순간 갑작스레 모든 게 무너진다 하더래도</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a6-ac20-cd5ca8346922" class="">세상이 무너진다 하더래도</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-804c-8df7-c8d224d183d2" class="">저는 그 누구에게도 불평할 수 없습니다<br/></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80ea-b3bb-eb98801fc17f" class="">저의 삶은 그 모든 것이 불안정했던 겁니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80f5-9d7a-e923c421ec66" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80c3-ab15-c7da1b84ee82" class="">머리가 어지럽습니다. 혼란스럽습니다. 울렁거립니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8073-8544-c5d88eb38a39" class="">악마 탓입니다. </p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e3-b503-fb1ece6ada02" class="">악마가 저를 홀렸습니다. </p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80b4-98de-cc24a48fd181" class="">저를 이런 사고의 늪으로 빠트려 버렸습니다.<br/></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8039-bc3d-ea101c594525" class="">저는 제가 살아온 일생 마저 확신할 수 없게 되었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e2-9800-e16c7993ed9d" class="">제가 일생을 살아왔었는지 마저 확신할 수 없게 되어버렸습니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8086-8676-d65d68753a16" class="">나의 과거를.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8049-8b2a-fd34d0e5421e" class="">나의 현재를.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8055-922b-cefb789af411" class="">나의 미래를.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80ef-b253-fa5a5355ea61" class="">나의 가족, 친구, 나무와 풀, 지구와 우주 그리고 그걸 넘어선 그 무언가조차도.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80e3-8e63-fbe1a9f578b5" class="">믿을 수 없게 되어버렸습니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8042-853b-cd22dd36a653" class="">아무것도 믿을 수 없게 되어버렸습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803b-86ee-e728a865fdfd" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80cc-84f1-e356f7958e95" class="">믿음 그 자체의 소실은 마치 절벽 끝에 아슬아슬 서있는 기분입니다</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8078-88fa-caf318662053" class="">떨어질 것 같습니다. <br/>정신이 나가버릴 것 같습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8067-bd37-d837bd240854" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-808e-9f30-c410844a23f7" class="">그 순간—</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8045-97fa-d893a6382b19" class="">영화가 끝났습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-806b-b284-ed52ef2d5967" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80ce-af87-c378119ea364" class="">저는 혼란 속에서도 서둘러 밖으로 나갔습니다.<br/>아니 나가지 않았더라면 그런 생각에 사로잡혀 헤어나오지 못했을 겁니다.<br/>발버둥쳐서라도, 잠시만이라도, 그 생각을 잊고 싶었던 것입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800b-a854-d8b8d1698a30" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8018-8d6a-cfdc28531e71" class="">아..</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803f-9311-c6ff1aa3ec52" class="">저는 발견했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-805c-a46d-c6d27c368d73" class="">삭막한 아스팔트<br/>그곳에서 민들레가 피어나 있었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803a-89d0-f14f40e36f08" class="">두 송이였습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-805e-a0b7-f4905c2a608b" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8041-8899-c83c9328e014" class="">절벽에 핀 꽃입니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8061-a910-fe7c702c8dd7" class="">절벽 위에 있었기에 찾을 수 있었던 겁니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8078-80c5-c2dcd4afb461" class="">둘 다 민들레입니다만— 분명 같지 않습니다. 명백히 다릅니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80af-bbf3-edd19b7ee340" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-808a-b360-ced7f5e26086" class="">저는 그 민들레 두 송이의 꽃말을 제멋대로 지었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-801e-88c9-c3d34b177dba" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-801e-b84e-c3152e9bae69" class=""><em>저는 존재합니다.</em></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8019-a0cc-f280ccbb4287" class=""><em>저는 생각합니다.</em></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803b-8ec0-d00ce5624904" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8098-a6f7-e2a615c59826" class="">이 민들레들이 악마에게서 절 지켜주었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803f-b862-f5c2588fdcd8" class=""><br/>그 후로 다시 민들레를 마주했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8004-b57e-cb18a9686187" class="">마주하고 마주하고 또 마주했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a9-8f20-fc01d6fc841e" class="">보호받고 보호받고 또 보호받았습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-800d-9efb-ed3971a269b2" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80d3-805e-f57200040fb1" class="">민들레는 아무 말도 하지 않았습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80db-a622-d5c7063d8f5f" class="">그냥 피어있었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8039-8437-cfa94e644251" class="">아스팔트가 싫었을 겁니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-802d-9462-d3acdebe0621" class="">악마가 싫었을 겁니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803c-a8bf-d3c416be39b8" class="">공백이 싫었을 겁니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8082-8db5-e0018ab46098" class="">그래도 피어있었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8027-b2d7-dfcaca0aca16" class="">그저 피어있었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80b4-9278-db41051c1ee1" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80aa-9176-e353500e1319" class="">오랜 세월 동안 민들레 두 송이를 지켜보기만 했습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80cf-9d81-fc9af002124d" class="">하지만—</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8068-9796-c4d404513910" class="">이제 전 하나의 민들레가 되기로 마음 먹었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-804c-965c-d4238d6c420e" class="">그저 존재하기로 마음 먹었습니다.</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-8020-81be-fac9e7ba0401" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80ef-a928-d613f6f195e3" class=""><strong>저라는 민들레의 꽃말은 Übermensch입니다.</strong></p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-80a8-9f6c-e6a82f9eccc4" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803a-aa2a-c513bb3469b7" class="">
-</p></div><div style="display:contents" dir="auto"><p id="3441262e-2b91-803d-a1c7-c159a6138a42" class="">
-</p></div></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+
+toggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+});
+</script>
+
+</body>
+</html>
