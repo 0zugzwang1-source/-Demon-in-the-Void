@@ -189,19 +189,18 @@ article p:empty {
 
 /* 악마의 속삭임 */
 .whisper {
-  text-align: center;
   font-style: italic;
   color: var(--ink-soft);
-  margin: 1.2em 0;
-  letter-spacing: 0.03em;
+  margin: 0.4em 0;
+  letter-spacing: 0.01em;
 }
 
 .whisper.first {
-  margin-top: 2.5em;
+  margin-top: 1.8em;
 }
 
 .whisper.last {
-  margin-bottom: 2.5em;
+  margin-bottom: 1.8em;
 }
 
 /* 구분선 (원작의 ---) */
@@ -244,44 +243,34 @@ article p:empty {
 /* 영화가 끝났습니다 */
 .turn {
   margin: 3rem 0;
-  text-align: center;
-  font-size: 1.1em;
+  font-size: 1.05em;
   color: var(--ink);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
-/* 꽃말 카드 */
+/* 꽃말 */
 .epitaph {
-  margin: 3rem 0;
-  text-align: center;
-  font-family: var(--serif-en);
+  margin: 2.5rem 0;
+  font-family: var(--serif-ko);
   font-style: italic;
-  font-size: 1.25em;
+  font-size: 1.1em;
   color: var(--gold);
-  letter-spacing: 0.01em;
-  line-height: 2.2;
+  line-height: 2.0;
 }
 
 .epitaph .ko {
-  font-family: var(--serif-ko);
-  font-style: normal;
-  font-weight: 400;
   display: block;
 }
 
 /* 결말 Übermensch */
 .finale {
-  margin: 5rem 0 2rem;
-  text-align: center;
+  margin: 3rem 0 2rem;
   font-family: 'Nanum Myeongjo', var(--serif-ko);
-  font-size: 1.15em;
+  font-size: 1.1em;
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.01em;
   line-height: 1.9;
-  padding: 2.5rem 1rem;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
 }
 
 .finale .ubermensch {
@@ -291,26 +280,6 @@ article p:empty {
   color: var(--gold);
   font-size: 1.15em;
   letter-spacing: 0.01em;
-}
-
-/* 푸터 장식 */
-footer {
-  text-align: center;
-  margin-top: 5rem;
-  color: var(--ink-faint);
-  font-family: var(--serif-en);
-  font-style: italic;
-  font-size: 0.8rem;
-  letter-spacing: 0.35em;
-}
-
-footer::before {
-  content: '';
-  display: block;
-  width: 40px;
-  height: 1px;
-  background: var(--rule);
-  margin: 0 auto 1.5rem;
 }
 
 /* 애니메이션 */
@@ -326,7 +295,7 @@ footer::before {
   header { margin-bottom: 4rem; }
   .theme-toggle { top: 1rem; right: 1rem; width: 40px; height: 40px; }
   .divider { margin: 3.5rem 0; }
-  .finale { padding: 2rem 0.5rem; margin: 4rem 0 2rem; }
+  .finale { margin: 2.5rem 0 2rem; }
   .aside { padding-left: 1rem; }
 }
 
@@ -453,7 +422,7 @@ footer::before {
 <p>악마가 나타나는 것입니다.<br>저의 모든 것을 속이기로 마음먹은 악마가,</p>
 
 <p class="whisper first">“너는 이런 것을 알고 있었어”</p>
-<p class="whisper last">“너는 이런 걸 보고 있었어”</p>
+<p class="whisper last">“너는 이런 것을 보고 있었어”</p>
 
 <p>당신의 과거마저, 당신이 인식하는 현재마저, 악마가 속삭이고 있습니다.</p>
 
@@ -579,13 +548,10 @@ footer::before {
 <p>이제 전 하나의 민들레가 되기로 마음 먹었습니다.<br>그저 존재하기로 마음 먹었습니다.</p>
 
 <div class="finale">
-  저라는 민들레의 꽃말은<br>
-  <span class="ubermensch">Übermensch</span>입니다.
+  저라는 민들레의 꽃말은 <span class="ubermensch">Übermensch</span>입니다.
 </div>
 
 </article>
-
-<footer>FIN</footer>
 
 </main>
 
